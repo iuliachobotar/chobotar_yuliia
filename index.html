@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yulia Chobotar — UI/UX Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Unbounded:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #B6FF4B;
+    --dark: #111111;
+    --light: #F5F5F0;
+    --gray: #888888;
+    --border: #DDDDDD;
+    --max: 1300px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--light); color: var(--dark); overflow-x: hidden; }
+
+  /* ── CONTAINER ── */
+  .container {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--dark);
+    color: var(--light);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute;
+    top: -120px; right: 0; width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(182,255,75,0.13) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 48px;
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    gap: 0 48px;
+  }
+
+  .hero-left {
+    padding: 64px 0;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .badge-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.2); color: var(--light);
+  }
+  .badge.active { background: var(--green); border-color: var(--green); color: var(--dark); font-weight: 700; }
+
+  .hero-name-block { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 48px 0; }
+  .hello-label {
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: 12px;
+  }
+  .hero-name { font-family: 'Unbounded', sans-serif; font-size: clamp(38px, 4.5vw, 72px); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; }
+  .hero-name span { color: var(--green); }
+  .hero-tagline { margin-top: 24px; font-size: 15px; color: rgba(255,255,255,0.5); max-width: 550px; line-height: 1.75; }
+
+  .hero-contacts { display: flex; flex-direction: column; gap: 10px; }
+  .hero-contact-item {
+    font-family: 'Space Mono', monospace; font-size: 14px;
+    color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 10px;
+    text-decoration: none; transition: color 0.2s;
+  }
+  .hero-contact-item:hover { color: var(--green); }
+  .hero-contact-item .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
+
+  /* Hero photo — right column, fills full height */
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    margin: 32px 0;
+    border-radius: 20px;
+  }
+  .hero-right::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to right, rgba(17,17,17,0.5) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  /* ════ ФОТО ГЕРОЯ ════
+     Замініть .hero-photo-placeholder на:
+     <img src="photo.jpg" class="hero-photo" alt="Yulia Chobotar">
+  ════════════════════════ */
+  .hero-photo { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+  .hero-photo-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(160deg, #1e1e1e 0%, #2a2a2a 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  }
+  .hero-photo-placeholder .ph-icon { font-size: 44px; opacity: 0.25; }
+  .hero-photo-placeholder .ph-label {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 0.14em; color: rgba(182,255,75,0.3); text-transform: uppercase;
+
+  }
+
+  /* ── GREEN BAR ── */
+  .green-bar { height: 4px; background: var(--green); }
+
+  /* ── APPROACH ── */
+  .approach-strip { background: var(--dark); color: var(--light); padding: 56px 48px; text-align: center; }
+  .approach-strip p { font-family: 'Unbounded', sans-serif; font-size: clamp(17px, 2.2vw, 26px); font-weight: 400; line-height: 1.55; max-width: 740px; margin: 0 auto; }
+  .approach-strip em { font-style: normal; color: var(--green); font-weight: 700; }
+
+  /* ── GENERIC SECTION WRAPPER ── */
+  .section { padding: 80px 0; }
+  .section-inner { max-width: var(--max); margin: 0 auto; padding: 0 48px; }
+
+  .section-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 48px; }
+  .section-header.centered { max-width: 860px; margin-left: auto; margin-right: auto; margin-bottom: 48px; }
+  .section-num { font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 900; color: var(--dark); letter-spacing: 0.05em; }
+  .section-title { font-family: 'Unbounded', sans-serif; font-size: clamp(22px, 2.8vw, 34px); font-weight: 900; letter-spacing: -0.02em; }
+  .section-line { flex: 1; height: 1px; background: var(--border); margin-left: 12px; }
+
+  /* ── EXPERIENCE ── */
+  .exp-grid { display: grid; gap: 0; }
+  .exp-item { display: grid; grid-template-columns: 150px 1fr; gap: 0 40px; padding: 32px 0; border-bottom: 1px solid var(--border); }
+  .exp-item:first-child { border-top: 1px solid var(--border); }
+  .exp-year { font-family: 'Space Mono', monospace; font-size: 12px; padding-top: 3px; display: flex; align-items: flex-start; }
+  .exp-year span { background: var(--green); color: var(--dark); font-weight: 700; padding: 3px 11px; border-radius: 100px; font-size: 14px; white-space: nowrap; }
+  .exp-role { font-family: 'Unbounded', sans-serif; font-size: 14px; font-weight: 900; margin-bottom: 10px; letter-spacing: -0.01em; line-height: 1.4; }
+  .exp-desc { font-size: 16px; color: #444; line-height: 1.75; }
+  .exp-desc .arrow { color: var(--dark); font-weight: 700; margin-right: 6px; }
+
+  /* ── SKILLS ── */
+  .skills-inner-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 36px 56px; }
+  .skills-group-title {
+    font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gray); margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .skills-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+  .skill-tag {
+    font-family: 'Space Mono', monospace; font-size: 12px;
+    padding: 8px 18px; border: 1.5px solid var(--dark); border-radius: 100px;
+    transition: all 0.2s; cursor: default; letter-spacing: 0.03em;
+  }
+  .skill-tag:hover, .skill-tag.hi { background: var(--green); border-color: var(--green); }
+
+  /* ── EDUCATION ── */
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .edu-card { padding: 28px 32px; border: 1.5px solid var(--border); border-radius: 16px; transition: border-color 0.2s, transform 0.2s; }
+  .edu-card:hover { border-color: var(--green); transform: translateY(-3px); }
+  .edu-period { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gray); margin-bottom: 10px; letter-spacing: 0.08em; }
+  .edu-uni { font-family: 'Unbounded', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+  .edu-degree { font-size: 14px; color: #555; }
+
+  /* ── PROJECTS ── */
+  .projects-section { background: var(--dark); padding: 80px 0; }
+  .projects-section .section-num { color: #fff; }
+  .projects-section .section-title { color: #fff; }
+  .projects-section .section-line { background: rgba(255,255,255,0.12); }
+
+  .project-block { margin-bottom: 72px; }
+  .project-block:last-child { margin-bottom: 0; }
+
+  .project-block-header { margin-bottom: 8px; }
+  .project-block-name { font-family: 'Unbounded', sans-serif; font-size: 20px; font-weight: 900; color: var(--green); letter-spacing: -0.02em; margin-bottom: 6px; }
+  .project-block-desc { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.65; margin-bottom: 20px; max-width: 600px; }
+
+  /* All project grids: 3 columns of square images */
+  .project-img-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .img-cell {
+    aspect-ratio: 1 / 1; border-radius: 14px; overflow: hidden;
+    background: #1a1a1a; border: 1px solid rgba(255,255,255,0.07);
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.25s;
+  }
+  .img-cell:hover { border-color: rgba(182,255,75,0.35); }
+
+  /* ════ ЯК ЗАМІНИТИ ЗАГЛУШКУ НА ФОТО ════
+     Видаліть <div class="img-placeholder">…</div>
+     і вставте: <img src="YOUR_IMAGE.jpg" style="width:100%;height:100%;object-fit:cover">
+  ════════════════════════════════════════ */
+  .img-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  }
+  .ph-cross { width: 30px; height: 30px; position: relative; opacity: 0.18; }
+  .ph-cross::before, .ph-cross::after { content: ''; position: absolute; background: var(--green); border-radius: 2px; }
+  .ph-cross::before { width: 100%; height: 2px; top: 50%; left: 0; transform: translateY(-50%); }
+  .ph-cross::after { width: 2px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+  .ph-text { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: rgba(255,255,255,0.16); text-transform: uppercase; text-align: center; padding: 0 12px; line-height: 1.5; }
+
+  /* More button */
+  .more-btn-wrap { display: flex; justify-content: center; margin-top: 24px; }
+  .more-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Space Mono', monospace; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--dark); background: var(--green);
+    padding: 12px 32px; border-radius: 100px;
+    text-decoration: none; font-weight: 700;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .more-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .more-btn::after { content: ' →'; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--dark); color: rgba(255,255,255,0.28); text-align: center; padding: 32px 48px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.1em; border-top: 1px solid rgba(255,255,255,0.06); }
+  footer span { color: var(--green); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-right { height: 360px; }
+    .hero-left { padding: 48px 0; }
+    .skills-inner-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .section-inner, .hero-inner { padding: 0 24px; }
+    .approach-strip { padding: 40px 24px; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .skills-inner-grid { grid-template-columns: 1fr; }
+    .exp-item { grid-template-columns: 1fr; gap: 8px; }
+    .project-img-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="badge-row">
+        <span class="badge active">UI/UX Designer</span>
+        <span class="badge">Mobile Apps</span>
+        <span class="badge">Dashboards</span>
+      </div>
+
+      <div class="hero-name-block">
+        <p class="hello-label">// Hello, I'm</p>
+        <h1 class="hero-name">Yulia<br><span>Chobotar</span></h1>
+        <p class="hero-tagline">UI/UX Designer obsessed with clean mobile apps and data-heavy dashboards. I love taking complex logic and turning it into a smooth, intuitive flow. While I have a background in branding, my heart belongs to building interfaces where every pixel makes sense. I focus on high-contrast typography, dark modes, and that perfect "feel" of a digital product.</p>
+      </div>
+
+      <div class="hero-contacts">
+        <a href="tel:+380994905658" class="hero-contact-item"><span class="dot"></span>+38 099 490 5658</a>
+        <a href="#" class="hero-contact-item"><span class="dot"></span><span class="__cf_email__" >chobotar.ly@gmail.com</span></span></a>
+        <a href="https://www.instagram.com/iulia_chobotar/" class="hero-contact-item"><span class="dot"></span>Instagram</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <img src="photo.jpg" class="hero-photo" alt="Yulia Chobotar">
+    </div>
+  </div>
+</section>
+
+<div class="green-bar"></div>
+
+<!-- ═══════════════════════ APPROACH ═══════════════════════ -->
+<div class="approach-strip">
+  <div class="container">
+    <p>My approach <em>reduces user effort</em> and ensures <em>simple, intuitive navigation</em> through the app or website.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════ EXPERIENCE ═══════════════════════ -->
+<div class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">01 /</span>
+      <h2 class="section-title">Work Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="exp-grid">
+
+      <div class="exp-item">
+        <div class="exp-year"><span>2025 – зараз</span></div>
+        <div class="exp-content">
+          <p class="exp-role">UI/UX Designer — Radiant</p>
+          <p class="exp-desc">
+            <span class="arrow">→</span>Development of Dribbble shots: mobile applications, dashboards, UI cases.<br>
+          <span class="arrow">→</span>Communication and synchronization of processes between employees to improve existing features.<br>
+          <span class="arrow">→</span>Building a design system with color, typography, and padding tokens.<br>
+          <span class="arrow">→</span>Working with components in Figma: properties, variants, automatic layout.<br>
+          <span class="arrow">→</span>AI image generation (Runway, Krea, Grok).
+          </p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-year"><span>2025</span></div>
+        <div class="exp-content">
+          <p class="exp-role">UI/UX Designer → Assistant Team Lead — Remote Helpers</p>
+          <p class="exp-desc">
+            <span class="arrow">→</span>Cross-functional collaboration with team leads and departments to launch new products.<br>
+            <span class="arrow">→</span>Creating AI-generated website designs and deep interface analysis.<br>
+            <span class="arrow">→</span>Onboarding new designers, feedback, workflow coordination.<br>
+            <span class="arrow">→</span>Communicating with CEO and PM regarding web design and handing over mockups to developers.
+          </p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-year"><span>2025</span></div>
+        <div class="exp-content">
+          <p class="exp-role">UI/UX Designer Intern</p>
+          <p class="exp-desc">
+          <span class="arrow">→</span>Internship as a UI/UX designer. Development of a mobile application design for iOS.          </p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-year"><span>2024</span></div>
+        <div class="exp-content">
+          <p class="exp-role">Web Designer — Booking Platform</p>
+          <p class="exp-desc">
+          <span class="arrow">→</span>Website design for booking seats in the summer auditorium for meetings with teachers.          </p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-year"><span>2024</span></div>
+        <div class="exp-content">
+          <p class="exp-role">UI Designer — Online Dormitory Room Booking</p>
+          <p class="exp-desc">
+          <span class="arrow">→</span>Teamwork on a scientific publication. Development of a user-friendly interface for a room reservation system.          </p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-year"><span>2023</span></div>
+        <div class="exp-content">
+          <p class="exp-role">Courses — Adobe Photoshop & Illustrator</p>
+          <p class="exp-desc">
+          <span class="arrow">→</span>Mastering basic skills in Photoshop and Illustrator.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ EDUCATION ═══════════════════════ -->
+<div style="background:#F0F0EB;">
+<div class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">02 /</span>
+      <h2 class="section-title">Education</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <p class="edu-period">2021 – 2025</p>
+        <p class="edu-uni">Lutsk National Technical University</p>
+        <p class="edu-degree">Software Engineering — Bachelor's</p>
+      </div>
+      <div class="edu-card">
+        <p class="edu-period">2025 – 2026</p>
+        <p class="edu-uni">Lutsk National Technical University</p>
+        <p class="edu-degree">Software Engineering — Master's</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════ SKILLS ═══════════════════════ -->
+<div class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">03 /</span>
+      <h2 class="section-title">Skills</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-inner-grid">
+
+      <div>
+        <p class="skills-group-title">Design Tools</p>
+        <div class="skills-wrap">
+          <span class="skill-tag hi">Figma</span>
+          <span class="skill-tag">Adobe Photoshop</span>
+          <span class="skill-tag">Illustrator</span>
+          <span class="skill-tag">Runway</span>
+        </div>
+      </div>
+
+      <div>
+        <p class="skills-group-title">Design Skills</p>
+        <div class="skills-wrap">
+          <span class="skill-tag">App Design</span>
+          <span class="skill-tag">Dashboard Design</span>
+          <span class="skill-tag">Website Design</span>
+          <span class="skill-tag">Wireframes</span>
+          <span class="skill-tag">User Flows</span>
+          <span class="skill-tag hi">Design Tokens</span>
+          <span class="skill-tag hi">Components & Properties</span>
+        </div>
+      </div>
+
+      <div>
+        <p class="skills-group-title">Tech & AI</p>
+        <div class="skills-wrap">
+          <span class="skill-tag">HTML / CSS</span>
+          <span class="skill-tag">GitHub</span>
+          <span class="skill-tag">Gemini</span>
+          <span class="skill-tag">GPT</span>
+          <span class="skill-tag hi">Grok</span>
+          <span class="skill-tag hi">Krea</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ PROJECTS ═══════════════════════ -->
+<section class="projects-section">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num" style="color:#fff">04 /</span>
+      <h2 class="section-title" style="color:#fff">Projects</h2>
+      <div class="section-line" style="background:rgba(255,255,255,0.12)"></div>
+    </div>
+
+    <!-- PROJECT 1: Dribbble -->
+    <div class="project-block">
+      <div class="project-block-header">
+        <p class="project-block-name">Dribbble</p>
+        <p class="project-block-desc">Mobile apps, UI cases, and dashboards published on Dribbble.</p>      </div>
+      <div class="project-img-grid">
+        <div class="img-cell"><img src="photo1.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="img-cell"><img src="photo2.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="img-cell"><img src="photo3.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+      </div>
+      <div class="more-btn-wrap"><a href="https://www.figma.com/design/YjFSFTfcfbxslHaV0KO0O2/SHOT?node-id=0-1&t=VshPtqGSyRz2VWTN-1" class="more-btn">More</a></div>
+    </div>
+
+    <!-- PROJECT 2: Design Tokens -->
+    <div class="project-block">
+      <div class="project-block-header">
+        <p class="project-block-name">Design Tokens</p>
+        <p class="project-block-desc">Building a design system: color, typography, and padding tokens in Figma.</p>      </div>
+      <div class="project-img-grid">
+        <div class="img-cell"><img src="thumbnail-1.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="img-cell"><img src="thumbnail-2.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="img-cell"><img src="thumbnail.jpg" style="width:100%;height:100%;object-fit:cover"></div>
+      </div>
+      <!-- Замініть href="#" на посилання -->
+      <div class="more-btn-wrap"><a href="https://www.figma.com/design/mHC7LHiW0Y45YjMax19SK1/Tokens?node-id=0-1&t=4CWfKXdLgbUu9tHr-1" class="more-btn">More</a></div>
+    </div>
+
+    <!-- PROJECT 3: Animation -->
+    <div class="project-block">
+      <div class="project-block-header">
+        <p class="project-block-name">Animation</p>
+        <p class="project-block-desc">Motion UI Design: Animating Mobile Apps, Complex Dashboards, and Branding Elements with Lottie.</p>
+        <p class="project-block-desc">P.S. Hover over image to view animation</p>        
+      </div>
+      <div class="project-img-grid">
+<div class="img-cell">
+  <video src="anim1.mp4" style="width:100%;height:100%;object-fit:cover" muted loop playsinline
+    onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"></video>
+</div>
+<div class="img-cell">
+  <video src="anim2.mp4" style="width:100%;height:100%;object-fit:cover" muted loop playsinline
+    onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"></video>
+</div>
+<div class="img-cell">
+  <video src="anim3.mp4" style="width:100%;height:100%;object-fit:cover" muted loop playsinline
+    onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"></video>
+</div>
+      </div>
+      <!-- Замініть href="#" на посилання -->
+      <div class="more-btn-wrap"><a href="https://jitter.video/file/?id=OF4hOiVmmwCX9lwdbBuzes9u" class="more-btn">More</a></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════
